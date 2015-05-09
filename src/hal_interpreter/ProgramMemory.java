@@ -10,8 +10,7 @@ import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-//comittest
-//committest2
+//comittest2
 public class ProgramMemory {
     
     ArrayList<listElement> list = new ArrayList<listElement>();
