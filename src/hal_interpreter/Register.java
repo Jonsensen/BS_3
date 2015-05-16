@@ -1,5 +1,11 @@
 package hal_interpreter;
 
+/*
+Register 0 = Programm Counter
+
+
+*/
+
 
 public class Register {
     int register[]= new int[10];
@@ -38,5 +44,15 @@ public class Register {
             }   
         } 
         return 0;
-    }    
+    }
+    
+    
+    
+    public void incremCounter(){
+    register[0]++;
 }
+    
+    
+}
+
+
