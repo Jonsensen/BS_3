@@ -1,5 +1,7 @@
 package hal_interpreter;
 
+
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -10,21 +12,23 @@ import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-//comittest2
+
 public class ProgramMemory {
     
-    ArrayList<listElement> list = new ArrayList<listElement>();
+     ArrayList<listElement> list = new ArrayList<listElement>();
     Scanner s;
-    String line ;
+    String line;
     
     public ProgramMemory(File programCode) throws IOException{
     
+        
+        
     list.clear();   
     
+       
         try {
             // Auslesen aus einer Datei            
             BufferedReader r = new BufferedReader(new FileReader(programCode));
-            
             /*
             Leskopf Steht am Anfang der Datei und wird nun Zeilenweise einlesen
             Solange wie Zeilen vorhanden(!=null).
@@ -41,13 +45,13 @@ public class ProgramMemory {
                 */
                 if(s.hasNext()){
                                    
-                    int tmpProgrammCounter = s.nextInt();
+                    int tmpProgrammCounter = s.nextInt(); 
                     String tmpCommand= s.next();
                     int tmpconstant;
                     
                     if(s.hasNext()){
-                    tmpconstant= s.nextInt();   
-                    }else tmpconstant =12;  // wenn keine konstante angebeben wird testhalb 12 abgespeichert
+                    tmpconstant= s.nextInt();  
+                    }else tmpconstant =-99;  // wenn keine konstante angebeben wird testhalb -99 abgespeichert
                    
                     /*
                     die einzelenen Werte in listen Obejekte abspeichern
@@ -64,6 +68,10 @@ public class ProgramMemory {
             System.out.println("Fehler beim einlesen der Datei");
         }    
     }
+    
+    public int getNumberInstruktionLines(){
+        return list.size();
+    }
   
     public String getInstruktion(int choiceInstruktion){
     
@@ -72,24 +80,41 @@ public class ProgramMemory {
         
         if(i==choiceInstruktion){
          System.out.println("Befehl: "+i);
-        return list.get(i).getCommand();
+        //return list.get(i).getCommand();
+         return list.get(i).getWhleCommand();
         }
        
         }
     
     return "0";
     }  
+    
+    
+    public listElement getlistElement(int choiceInstruktion){
+        
+        for (int i =0;i<list.size();i++){
+         if (i == choiceInstruktion){
+         return list.get(i);
+         }
+        }
+        // Nur für Ruckgabe, wie in Java ?!
+        listElement tmp = new listElement(-1, " ", -1);
+         return tmp;
+    }
+    
 }
 
 class listElement{
     private int programmCounter;
     private String command;
-    private int constant; 
+    private int constant;
+    private String wholeCommand;
     
     public listElement(int _programmCounter,String _command,int _constant){   
     this.programmCounter=_programmCounter;
     this.command=_command;
     this.constant=_constant;
+    this.wholeCommand=_command+_constant;
     }   
 
     /**
@@ -107,6 +132,8 @@ class listElement{
         return command;
          
     }
+    
+    
 
     /**
      * @return the constant
@@ -114,6 +141,14 @@ class listElement{
     public int getConstant() {
         return constant;
     }
+    
+    /**
+     * @return the constant
+     */
+    public String getWhleCommand(){
+    return wholeCommand;
+    }
+    
     
     
 }
