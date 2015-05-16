@@ -12,4 +12,16 @@ package hal_interpreter;
  */
 public class Acc {
     
+    
+    private int value=0; // Default Wert
+    
+    
+    void setValue(int _val){
+        this.value=_val;
+    }
+    
+    int getValue(){
+        return value;
+    }
+    
 }
