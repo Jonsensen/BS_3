@@ -114,7 +114,15 @@ class listElement{
     this.programmCounter=_programmCounter;
     this.command=_command;
     this.constant=_constant;
-    this.wholeCommand=_command+_constant;
+    
+    if (constant==-99){
+        this.wholeCommand=_command;
+        }
+    
+    else {
+    this.wholeCommand=_command+_constant;    
+    }
+    
     }   
 
     /**
