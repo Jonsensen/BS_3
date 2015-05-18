@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package hal_interpreter;
 /**
  *
@@ -27,35 +23,37 @@ public class ALU {
     
     /*
     Aufrufen von ExecComm mit Jeweiligem Programm Counter (Registger 0) und inkrementieren von PC
-    So lange durchlaufen, wie es Befehszeilen im ProgrammMemory gibt.
+    So lange durchlaufen, bis Befehl "STOP" erreicht ist
     */
    public void startExec(){
-  // Scheifenbedingung Prüfen. Schleife soll laufen bis Ende der HAL(.txt) Datei.
-       //for(int i = 0;!ProgMem.s.hasNext();i++){
-       for (int i =0;i<ProgMem.getNumberInstruktionLines();i++){
-           System.out.println("Schleife in StartExec: "+i);
-        ExecComm(ProgMem.getlistElement(regs.getregister(0)));
-        regs.incremCounter();
+       
+       boolean quit=false;
+       int debugzaehler=0;
+       while(!quit){
+            quit=ExecComm(ProgMem.getlistElement(regs.getregister(0)));
+            regs.incremCounter();
        }
+       System.out.println("Programm wurde beendet");
        
    }
     
-     
-   private void ExecComm(listElement _instruktion){
+   
+   private boolean ExecComm(listElement _instruktion){
       
+       boolean quithelper=false;
        
           if(debugMode){ // zusätzliche Informationen bei Vor jedem Befehl
-               System.out.println("Vor Ausführung des Befehls: "+_instruktion.getWhleCommand());
+               System.out.println("***** Vor Ausführung des Befehls: "+_instruktion.getWhleCommand());
                System.out.println("Wert des Akkus: "+aku.getValue());
+               System.out.println("*****");
            }
           
        
        switch(_instruktion.getCommand()){
            case "START": {System.out.println("Programm wurde gestartet!");break;}
-       
-           case "STOP" : {System.out.println("Programm wird beendet !");break;}         // Nicht fertig
-           case "OUT"  : {break;}                                                       // Nicht fertig
-           case "IN"   :{break;}                                                        //Nicht fertig
+           case "STOP" : {quithelper=true;break;}                                       
+           case "OUT"  : {System.out.println("Noch nicht Implementiert");break;}        // Nicht fertig
+           case "IN"   : {System.out.println("Noch nicht Implementiert");break;}        //Nicht fertig
            case "LOAD" : { // Läd Inhalt von Register (r) in aku
                aku.setValue(regs.getregister(_instruktion.getConstant()));
                break;
@@ -67,6 +65,7 @@ public class ALU {
            
             case "STORE" : { // Speichert Inhalt von aku in Register (r).
                regs.setregister(_instruktion.getConstant(),aku.getValue());
+               if(debugMode) System.out.println("Register "+_instruktion.getConstant()+": "+regs.getregister(_instruktion.getConstant()));
                break;
            }
            
@@ -76,23 +75,27 @@ public class ALU {
             case "JUMPNEG" :{// Springt zur ProgrammSPeicherAdresse (a) wenn aku negativen Wert hat
                 if (aku.getValue()<0)
                     regs.setregister(0, _instruktion.getConstant());
+                if(debugMode) System.out.println("Register 0: "+regs.getregister(0));
                 break;
             }
             
             case "JMPPOS" :{// Springt zur ProgrammSpeicherAdresse (a) wenn aku positiven Wert hat
                 if (aku.getValue()>=0)
                 regs.setregister(0, _instruktion.getConstant());
+                if(debugMode) System.out.println("Register 0: "+regs.getregister(0)); 
                 break;
             }
            
-            case "JMPNULL" : {// Springt zur ProgrammSpeicherAdresse (a) wenn aku positiven Wert hat
+            case "JMPNULL" : {// Springt zur ProgrammSpeicherAdresse (a) wenn aku 0 ist
                 if(aku.getValue()==0)
                     regs.setregister(0, _instruktion.getConstant());
+                if(debugMode) System.out.println("Register 0: "+regs.getregister(0));
                 break;
             }
             
             case "JMP" : { // Springt zur ProgrammSpeicherAdresse (a)
                 regs.setregister(0, _instruktion.getConstant());
+                if(debugMode) System.out.println("Register 0: "+regs.getregister(0));
                 break;
             }
             
@@ -107,7 +110,7 @@ public class ALU {
             }
             
             case "SUB" : { // aku = aku - register (a)
-            aku.setValue(aku.getValue()-regs.getregister(_instruktion.getConstant()));
+                aku.setValue(aku.getValue()-regs.getregister(_instruktion.getConstant()));
             break;
             }
             
@@ -135,16 +138,22 @@ public class ALU {
             aku.setValue(aku.getValue()/_instruktion.getConstant());
             break;
             }
+            default : {System.out.println(_instruktion.getCommand()+" ist kein zulässiger Befehl! - Beenden des Programmes");}
             
        }// Ende Switch
        
        
         if(debugMode){ // zusätzliche Informationen bei Nach jedem Befehl
-               System.out.println("Vor Ausführung des Befehls: "+_instruktion.getWhleCommand());
+               System.out.println("***** Nach Ausführung : " );
                System.out.println("Wert des Akkus: "+aku.getValue());
+               System.out.println("*****");
            }
  
-       
+        if(quithelper)
+            return true;
+        
+       return false;
+        
     } // Ende Methode
     
      
