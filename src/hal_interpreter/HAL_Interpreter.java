@@ -3,44 +3,49 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
-/*
-NEW:
--listelement.wholecommand ergänzt
-- Übergabe der Auszuführenden Datei in Console möglich 
--Acc erstellt
--ALU erstellt + Konstruktor + ExecComm + startExec
-- ProgrammMemory.getlistElement hinzugefügt
-*/
 public class HAL_Interpreter {
 
   
     
     
     public static void main(String[] args) throws IOException {
-       
+       // Zum Aufruf des Programmes im Debug modus "-d" angeben !
         String defautFileName ="test.txt";
         boolean debugMode = false;
         File input = new File(defautFileName);
         
-        // Funktioniert ohne debug -> erweitern 
-       // Übergabe des Programmnamens im ersten Parameter
-        if(args.length==1){
-            input = new File(args[0]);
-            System.out.println("Einhabedatei:"+args[0]);
-        }
-         // Ohne Parameter: default Datei setzen
-        else{
-            input = new File("test.txt");  // Test Datein = test.txt,test1.txt 
+        // Default namen ohne Debug Infos
+        if (args.length==0){
+        input = new File(defautFileName);
         }
         
+        if (args.length==1){// Entweder andere Datei Ohne Debug Infos oder nur Debug Infos
+            
+          
+            if (args[0].equals("-d")){// DefaultFileName mit Debug Infos
+                debugMode=true;
+                input = new File (defautFileName);
+                }
+            
+            
+            else{// andere Datei ohne Debug Infos
+                input = new File(args[0]);
+                }
+            
+        }
+         
         
-        
-       
+        //anderer Dateinamen und Debug Infos
+        else if (args.length==2){
+        input = new File (args[0]);
+        debugMode=true;
+        }
+            
         ProgramMemory ProgrammMem = new ProgramMemory(input);
         Register regs = new Register();
         ALU alu = new ALU(ProgrammMem,regs,debugMode);
-        System.out.println("Ausgabe der Instruktion in Main: "+ProgrammMem.getInstruktion(3));
-      alu.startExec();
+       // System.out.println("Ausgabe der Instruktion in Main: "+ProgrammMem.getInstruktion(0));
+        alu.startExec();
         
     }
     
