@@ -8,7 +8,7 @@ Register 0 = Programm Counter
 
 
 public class Register {
-    int register[]= new int[10];
+    int register[]= new int[20];
     
     public Register(){
     
@@ -26,7 +26,7 @@ public class Register {
             if(a==choiceRegister){ 
                 
                 register[a]=setValue;
-                System.out.println("Register:("+a+")changed");
+                
             }              
         }      
     }       
@@ -51,6 +51,10 @@ public class Register {
     public void incremCounter(){
     register[0]++;
 }
+    
+    public void decremCounter(){
+        register[0]--;
+    }
     
     
 }
