@@ -7,12 +7,15 @@ public class HAL_Interpreter {
 
   
     
-    
     public static void main(String[] args) throws IOException {
        // Zum Aufruf des Programmes im Debug modus "-d" angeben !
         String defautFileName ="test.txt";
-        boolean debugMode = false;
+        boolean debugMode = false; 
+        
         File input = new File(defautFileName);
+        // Später(Aufgabe 3) in Konstruktor von HAL_Interpreter anzugeben 
+        int anzahlINIOs= 3;
+        int anzahlOUTIOs = 3;
         
         // Default namen ohne Debug Infos
         if (args.length==0){
@@ -41,9 +44,23 @@ public class HAL_Interpreter {
         debugMode=true;
         }
             
+        // Erzeugen der HAL Komponenten:
         ProgramMemory ProgrammMem = new ProgramMemory(input);
         Register regs = new Register();
-        ALU alu = new ALU(ProgrammMem,regs,debugMode);
+        
+        IN[] INS = new IN[anzahlINIOs]; 
+        OUT[] OUTS = new OUT[anzahlOUTIOs];
+        
+        for (int i=0;i<anzahlINIOs;i++){
+            INS[i]= new IN();
+        }
+        
+        for (int i=0;i<anzahlOUTIOs;i++){
+            OUTS[i]= new OUT();
+        }
+        
+        
+        ALU alu = new ALU(ProgrammMem,regs,debugMode,INS,OUTS);
        // System.out.println("Ausgabe der Instruktion in Main: "+ProgrammMem.getInstruktion(0));
         alu.startExec();
         
