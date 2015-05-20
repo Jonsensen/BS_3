@@ -10,14 +10,23 @@ public class ALU {
    Register      regs;
     Acc aku= new Acc();
     boolean debugMode = false;
+   IN[] INS;
+   OUT[]OUTS;
+    // Noch im Test:
    
+  
+    // Ende Test
     /*
-    Programm Memory und Register als Referenz holen (In Java werden Objekte immer als Referenz übergeben!)
+    Programm Memory und Register als Referenz holen. Arrays für IN/ OUT Schnittstellen erstellen und Füllen wie in HAL_Interpreter angegeben.
     */
-    public ALU(ProgramMemory _ProgMem, Register _reg, boolean _debugMode){
+    public ALU(ProgramMemory _ProgMem, Register _reg, boolean _debugMode,IN[] ins,OUT[] outs){
      ProgMem= _ProgMem;
      regs=_reg;
      debugMode=_debugMode;
+     this.INS = new IN[ins.length];
+     this.OUTS = new OUT[outs.length];
+     INS =ins;
+     OUTS = outs;
     }
     
     
@@ -26,10 +35,12 @@ public class ALU {
     So lange durchlaufen, bis Befehl "STOP" erreicht ist
     */
    public void startExec(){
-       
+       System.out.println("Programm Start: ");
        boolean quit=false;
        int debugzaehler=0;
        while(!quit){
+         //  System.out.println("In Startexec vor Befehl RO: "+regs.getregister(0));
+         //  System.out.println("ListElement: "+ProgMem.getlistElement(regs.getregister(0)).getCommand());
             quit=ExecComm(ProgMem.getlistElement(regs.getregister(0)));
             regs.incremCounter();
        }
@@ -50,10 +61,16 @@ public class ALU {
           
        
        switch(_instruktion.getCommand()){
-           case "START": {System.out.println("Programm wurde gestartet!");break;}
+           case "START": {break;} // Momentan ohen Funktion
            case "STOP" : {quithelper=true;break;}                                       
-           case "OUT"  : {System.out.println("Noch nicht Implementiert");break;}        // Nicht fertig
-           case "IN"   : {System.out.println("Noch nicht Implementiert");break;}        //Nicht fertig
+           case "OUT"  : {try{OUTS[_instruktion.getConstant()].setnPrintValue(aku.getValue());}
+                          catch(ArrayIndexOutOfBoundsException e){System.err.println("Dieses OUT Objekt gibt es nicht !");}
+           break;}       
+           
+           case "IN"   : { try{aku.setValue(INS[_instruktion.getConstant()].readIntValue());}
+                           catch(ArrayIndexOutOfBoundsException e ){System.err.println("Dieses IN Objekt gibt es nicht !"+_instruktion.getConstant());} 
+           break;}        
+           
            case "LOAD" : { // Läd Inhalt von Register (r) in aku
                aku.setValue(regs.getregister(_instruktion.getConstant()));
                break;
@@ -73,29 +90,34 @@ public class ALU {
             Jumps können in ein Case Zusammengefasst werden?!
             */
             case "JUMPNEG" :{// Springt zur ProgrammSPeicherAdresse (a) wenn aku negativen Wert hat
-                if (aku.getValue()<0)
+                if (aku.getValue()<0){
                     regs.setregister(0, _instruktion.getConstant());
-                if(debugMode) System.out.println("Register 0: "+regs.getregister(0));
+                if(debugMode){ System.out.println("Register 0: "+regs.getregister(0));}
+                regs.decremCounter();}
                 break;
             }
             
-            case "JMPPOS" :{// Springt zur ProgrammSpeicherAdresse (a) wenn aku positiven Wert hat
-                if (aku.getValue()>=0)
+            case "JUMPPOS" :{// Springt zur ProgrammSpeicherAdresse (a) wenn aku positiven Wert hat
+                if (aku.getValue()>=0){
                 regs.setregister(0, _instruktion.getConstant());
-                if(debugMode) System.out.println("Register 0: "+regs.getregister(0)); 
+                System.out.println("Konstante in JUMPPOS:"+_instruktion.getConstant());
+                if(debugMode){ System.out.println("Register 0: "+_instruktion.getConstant());}
+                regs.decremCounter();}
                 break;
             }
            
-            case "JMPNULL" : {// Springt zur ProgrammSpeicherAdresse (a) wenn aku 0 ist
-                if(aku.getValue()==0)
+            case "JUMPNULL" : {// Springt zur ProgrammSpeicherAdresse (a) wenn aku 0 ist
+                if(aku.getValue()==0){
                     regs.setregister(0, _instruktion.getConstant());
-                if(debugMode) System.out.println("Register 0: "+regs.getregister(0));
+                if(debugMode){ System.out.println("Register 0: "+regs.getregister(0));}
+                regs.decremCounter();}
                 break;
             }
             
-            case "JMP" : { // Springt zur ProgrammSpeicherAdresse (a)
+            case "JUMP" : { // Springt zur ProgrammSpeicherAdresse (a)
                 regs.setregister(0, _instruktion.getConstant());
-                if(debugMode) System.out.println("Register 0: "+regs.getregister(0));
+                if(debugMode) {System.out.println("Register 0: "+regs.getregister(0));}
+                regs.decremCounter();
                 break;
             }
             
@@ -155,7 +177,6 @@ public class ALU {
        return false;
         
     } // Ende Methode
-    
-     
+   
     
 } // Ende Klasse
