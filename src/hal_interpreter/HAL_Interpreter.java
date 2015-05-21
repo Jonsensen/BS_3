@@ -14,8 +14,8 @@ public class HAL_Interpreter {
         
         File input = new File(defautFileName);
         // Später(Aufgabe 3) in Konstruktor von HAL_Interpreter anzugeben 
-        int anzahlINIOs= 3;
-        int anzahlOUTIOs = 3;
+        int anzahlINIOs= 5;
+        int anzahlOUTIOs = 5;
         
         // Default namen ohne Debug Infos
         if (args.length==0){
