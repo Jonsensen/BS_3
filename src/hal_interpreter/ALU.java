@@ -100,7 +100,6 @@ public class ALU {
             case "JUMPPOS" :{// Springt zur ProgrammSpeicherAdresse (a) wenn aku positiven Wert hat
                 if (aku.getValue()>=0){
                 regs.setregister(0, _instruktion.getConstant());
-                System.out.println("Konstante in JUMPPOS:"+_instruktion.getConstant());
                 if(debugMode){ System.out.println("Register 0: "+_instruktion.getConstant());}
                 regs.decremCounter();}
                 break;
