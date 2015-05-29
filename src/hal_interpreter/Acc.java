@@ -8,19 +8,21 @@ package hal_interpreter;
 
 /**
  *
- * @author debian
+ * Letzte Ändeung: 
+ * - Änderung int -> float
+ * 
  */
 public class Acc {
     
     
-    private int value=0; // Default Wert
+    private float value=0; // Default Wert
     
     
-    void setValue(int _val){
+    void setValue(float _val){
         this.value=_val;
     }
     
-    int getValue(){
+    float getValue(){
         return value;
     }
     
