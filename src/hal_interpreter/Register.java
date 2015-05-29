@@ -2,8 +2,6 @@ package hal_interpreter;
 
 /*
 Register 0 = Programm Counter
-Letzte Änderung:
-- Änderung int -> float
 */
 
 
@@ -46,17 +44,8 @@ public class Register {
         return 0;
     }
     
-    /*
-    public int getregisterAsInt(int choiceRegister){
-        
-        for (int b =0;b<register.length;b++){
-            if (b==choiceRegister){
-                int tmp=Math.round(register[b]);
-            }
-        }
-    }
-    */
-    
+
+
     public void incremCounter(){
     register[0]++;
 }
