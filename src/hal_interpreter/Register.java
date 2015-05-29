@@ -2,13 +2,13 @@ package hal_interpreter;
 
 /*
 Register 0 = Programm Counter
-
-
+Letzte Änderung:
+- Änderung int -> float
 */
 
 
 public class Register {
-    int register[]= new int[20];
+    float register[]= new float[20];
     
     public Register(){
     
@@ -19,7 +19,7 @@ public class Register {
            
     }
     
-    public void setregister(int choiceRegister,int setValue){
+    public void setregister(int choiceRegister,float setValue){
     
         for (int a = 0 ;a<register.length;a++){
                       
@@ -33,7 +33,7 @@ public class Register {
     
    
     
-    public int getregister(int choiceRegister){
+    public float getregister(int choiceRegister){
     
         for (int b = 0 ;b<register.length;b++){
         
@@ -46,7 +46,16 @@ public class Register {
         return 0;
     }
     
-    
+    /*
+    public int getregisterAsInt(int choiceRegister){
+        
+        for (int b =0;b<register.length;b++){
+            if (b==choiceRegister){
+                int tmp=Math.round(register[b]);
+            }
+        }
+    }
+    */
     
     public void incremCounter(){
     register[0]++;
