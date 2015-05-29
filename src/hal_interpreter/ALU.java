@@ -28,8 +28,6 @@ public class ALU {
      INS =ins;
      OUTS = outs;
     }
-    
-    
     /*
     Aufrufen von ExecComm mit Jeweiligem Programm Counter (Registger 0) und inkrementieren von PC
     So lange durchlaufen, bis Befehl "STOP" erreicht ist
@@ -41,7 +39,9 @@ public class ALU {
        while(!quit){
          //  System.out.println("In Startexec vor Befehl RO: "+regs.getregister(0));
          //  System.out.println("ListElement: "+ProgMem.getlistElement(regs.getregister(0)).getCommand());
-            quit=ExecComm(ProgMem.getlistElement(regs.getregister(0)));
+           
+            // Math.round um den Register Wert von PC nach int zu Casten 
+            quit=ExecComm(ProgMem.getlistElement(Math.round(regs.getregister(0)))); 
             regs.incremCounter();
        }
        System.out.println("Programm wurde beendet");
