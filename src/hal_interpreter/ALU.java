@@ -27,6 +27,7 @@ public class ALU {
      this.OUTS = new OUT[outs.length];
      INS =ins;
      OUTS = outs;
+   
     }
     /*
     Aufrufen von ExecComm mit Jeweiligem Programm Counter (Registger 0) und inkrementieren von PC
