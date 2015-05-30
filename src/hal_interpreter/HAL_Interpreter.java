@@ -7,6 +7,11 @@ public class HAL_Interpreter extends Thread{
 
    private ALU alu;
   
+   public HAL_Interpreter(){
+   
+   }
+   
+   
     // Konstruktor des HAl Interpreters - zusammensetzen der Bestandsteile
     public HAL_Interpreter(int anzINs, int anzOUTs,File input,boolean debug)throws IOException{
     
@@ -33,7 +38,7 @@ public class HAL_Interpreter extends Thread{
 
    // Erzeugen des Neuen Threads
     public void run() {
-      //alu.startExec();
+      alu.startExec();
        // Hier auszuführender Code
         
     }
