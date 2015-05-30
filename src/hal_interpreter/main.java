@@ -9,6 +9,11 @@ package hal_interpreter;
 import java.io.File;
 import java.io.IOException;
 import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.util.Arrays;
+import java.util.ArrayList;
+
 
 /**
  *
@@ -21,7 +26,35 @@ import java.util.Scanner;
 public class main {
     
     
-
+static ArrayList<String>  readConfig(){
+ ArrayList<String>ProgrammfileNames = new ArrayList<String>();
+       try {
+		BufferedReader in = new BufferedReader(new FileReader("HalConf.txt"));
+		String zeile = null;
+               
+		while ((zeile = in.readLine()) != null) {
+			
+                    if (!zeile.equals("#HAL_Prozessoren :")){
+                            // System.out.println("Gelesene Zeile: " + zeile);
+                             String tmp = zeile;
+                             String [] splittLine =zeile.split(" ");
+                            // System.out.println("Einzelne : "+Arrays.toString(splittLine));
+                        
+                       //     System.out.println(splittLine[1]);
+                            ProgrammfileNames.add(splittLine[1]);
+                    }    
+                        
+                   }
+                
+                
+	} catch (IOException e) {
+		e.printStackTrace();
+	}
+        
+    
+     return ProgrammfileNames;
+}
+    
 
     // "Sicherung" von Termin 3 - einfache Ausführung im Normlen Thread. Bei Benutzung rückgabe ergänzen !
    public void singleExec(String [] args){
@@ -71,10 +104,27 @@ public class main {
      
         boolean debugMode = false;
         
-        if(args[0].equals("-d")){
+        if(args.length!=0&&args[0].equals("-d")){
             debugMode=true;
         }
-     
+        
+        // Namen aller Programme für die Einzelnen HAls
+    ArrayList<String> ProgrammNames = readConfig();
+        
+    // Hier sind Alle HAl Objekte Gepeichert
+    ArrayList<HAL_Interpreter> HALS = new ArrayList<HAL_Interpreter>();
+    
+    // Hal init und in HAlS AraayList + Starten der Threads
+    for (int i=0;i<ProgrammNames.size();i++){
+        System.out.println(ProgrammNames.get(i));
+        File inputFile = new File(ProgrammNames.get(i));
+        HAL_Interpreter tmpHAL = new HAL_Interpreter(4, 4, inputFile, debugMode);
+        HALS.add(tmpHAL);
+        tmpHAL.run();
+        
+    }
+    
+        
         /*
        Für nächste Aufgabe:   4 HAL Bausteine erstellen, 2 mittlere, einen für eingabe und einen für ausgabe. Von IO_Oberklasse erben. 
         implements Runnable, damit keine mehrfachvererbung. 
@@ -82,31 +132,7 @@ public class main {
         */
         
         
-        /*
-        Auslesen der HALConf Datei und Erstellen der Jeweiligen HAL Bausteine mit jeweiligem Ausführbaren Programm
-        */
-        File Conf = new File("HALConf.txt");
-        Scanner scanner = new Scanner (Conf);
-        while (scanner.hasNextLine()){
-            
-            // ...
-                
-        }
-        
-        
-        
-        
-        
-        
-      
-        //HAL_Interpreter hal1 = new HAL_Interpreter(4, 4, input, debugMode); // params : anz. InIOs, anz. OutIOs, Dateiname, debugmode
-        //HAL_Interpreter hal2 = new HAL_Interpreter(4, 4, input, debugMode);
-        //HAL_Interpreter hal3 = new HAL_Interpreter(4, 4, input, debugMode);
-        
-       
-        
-        
-        
+ 
         
         
         
