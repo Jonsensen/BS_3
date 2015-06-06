@@ -13,15 +13,18 @@ import java.util.Scanner;
  * @author debian
  */
 public class IN {
-    
-    int value; 
+   
+    private float value; 
+    private Buffer buf;
     
     
     public IN(){
+        value=0;
         
         }
+ 
     
-    int readIntValue(){
+    float readFloatValue(){
         String tmpString;
         Scanner cin = new Scanner(System.in);
         System.out.println("> ");
@@ -30,9 +33,23 @@ public class IN {
        return value;
     }
     
-  int getValue(){
+  float getValue(){
       return value;
   }  
-    
-    
+
+
+ 
+ 
+ void setBuf(Buffer buf){
+     this.buf=buf;
+ }
+ 
+ 
+ float getBuf(){
+     return buf.get();
+ }
+  
+
+ 
+ 
 }
