@@ -12,18 +12,44 @@ package hal_interpreter;
  */
 public class OUT {
     
-   private int _value;
-   
-   
+ 
+   private float value;
+   IN []INS;
+   OUT []OUTS;
+   Buffer buf = new  Buffer();
+  
+  
     public OUT(){
+        value=0;
+  
         
     }
     
-    void setnPrintValue(int val){
-        this._value=val;
-        System.out.println("Ausgabe: "+ _value);
+    void setnPrintValue(float val){
+        this.value=val;
+        System.out.println("Ergebniss: "+ value);
     }
     
     
+    public void set_value(float val){
+        this.value=val;
+    }
     
+    
+      
+  void putBuf (){
+     
+      buf.put(value);
+      
+  }
+    
+    Buffer retBuf(){
+        return buf;
+    }
+    
+    void putFloattoBuf(float value){
+        buf.put(value);
+    }
+    
+   
 }
