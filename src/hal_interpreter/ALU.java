@@ -12,10 +12,8 @@ public class ALU {
     boolean debugMode = false;
    IN[] INS;
    OUT[]OUTS;
-    // Noch im Test:
-   
   
-    // Ende Test
+   
     /*
     Programm Memory und Register als Referenz holen. Arrays für IN/ OUT Schnittstellen erstellen und Füllen wie in HAL_Interpreter angegeben.
     */
@@ -23,8 +21,10 @@ public class ALU {
      ProgMem= _ProgMem;
      regs=_reg;
      debugMode=_debugMode;
-     this.INS = new IN[ins.length];
-     this.OUTS = new OUT[outs.length];
+     this.INS =ins;
+     this.OUTS=outs;
+     //this.INS = new IN[ins.length];
+     //this.OUTS = new OUT[outs.length];
      INS =ins;
      OUTS = outs;
    
@@ -68,7 +68,7 @@ public class ALU {
                           catch(ArrayIndexOutOfBoundsException e){System.err.println("Dieses OUT Objekt gibt es nicht !");}
            break;}       
            
-           case "IN"   : { try{aku.setValue(INS[_instruktion.getConstant()].readIntValue());}
+           case "IN"   : { try{aku.setValue(INS[_instruktion.getConstant()].readFloatValue());}
                            catch(ArrayIndexOutOfBoundsException e ){System.err.println("Dieses IN Objekt gibt es nicht !"+_instruktion.getConstant());} 
            break;}        
            
