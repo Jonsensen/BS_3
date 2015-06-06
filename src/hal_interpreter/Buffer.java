@@ -3,14 +3,13 @@
  *
  * @author debian
  */
-
 package hal_interpreter;
 
 public class Buffer {
     private boolean available = false;
-	private int data;
-
-	public synchronized void put(int x) {
+	//private int data;
+        private float data;
+	public synchronized void put(float x) {
 		while(available) {
 			try {
 				wait();
@@ -22,7 +21,7 @@ public class Buffer {
 		notifyAll();
 	}
 
-	public synchronized int get() {
+	public synchronized float get() {
 		while(!available) {
 			try {
 				wait();
